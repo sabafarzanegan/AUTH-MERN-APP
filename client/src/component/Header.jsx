@@ -9,10 +9,10 @@ function Header() {
         {/* header content */}
         <div className="flex items-center justify-between ">
           <Link to="/" className="font-lalezar text-Secondary text-2xl">
-            اپ اهراز هویت
+            اپ احراز هویت
           </Link>
           {/* menu item */}
-          <ul className="flex items-center justify-center gap-x-4">
+          <ul className="flex items-center justify-center gap-x-6">
             <li>
               <Link to="/signin" className=" hover:text-primary">
                 ورود
