@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: "lalezar";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./assets/Font/Lalezar-Regular.ttf);
+}
+@font-face {
+  font-family: "vazir";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(./assets/Font/Vazirmatn-VariableFont_wght.ttf);
+}
+body {
+  background-color: #303030;
+}
