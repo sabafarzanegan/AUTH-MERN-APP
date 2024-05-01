@@ -14,12 +14,12 @@ function Header() {
           {/* menu item */}
           <ul className="flex items-center justify-center gap-x-4">
             <li>
-              <Link to="/" className=" hover:text-primary">
+              <Link to="/signin" className=" hover:text-primary">
                 ورود
               </Link>
             </li>
             <li>
-              <Link to="/" className=" hover:text-primary">
+              <Link to="/about" className=" hover:text-primary">
                 درباره ی اپ
               </Link>
             </li>
