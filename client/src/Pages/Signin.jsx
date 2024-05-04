@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import {
+  signinStart,
+  signinError,
+  signinSuccess,
+} from "../redux/user/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 function Signin() {
   const [formData, setFormData] = useState({});
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  // const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState(false);
+  const { error, loading } = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const signupInpuHandler = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
@@ -13,8 +20,7 @@ function Signin() {
     e.preventDefault();
 
     try {
-      setLoading(true);
-      setError(false);
+      dispatch(signinStart());
       const response = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
@@ -25,15 +31,19 @@ function Signin() {
       const data = await response.json();
 
       if (data.success === false) {
-        setError(true);
+        // setError(true);
+        dispatch(signinError(data.message));
         return;
       }
+      dispatch(signinSuccess(data));
+
       navigate("/");
 
       setLoading(false);
-    } catch (error) {
+    } catch (err) {
       // setLoading(false);
       // setError(true);
+      dispatch(signinError(err));
     }
   };
 
@@ -46,7 +56,7 @@ function Signin() {
       {/* error section */}
       {error && (
         <div className=" w-[30%] m-auto mt-2 border border-red-600 bg-red-600 text-white text-center font-vazir p-4 ">
-          <p>خطا در ارسال اطلاعات</p>
+          <p>{error ? error || "خطا در احراز هویت" : ""}</p>
         </div>
       )}
 
