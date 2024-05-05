@@ -13,7 +13,7 @@ const persisConfig = {
 // const persistreducer = persistReducer({ persisConfig, rootReducer });
 const localstorage = persistReducer(persisConfig, rootReducer);
 export const store = configureStore({
-  reducer: localstorage,
+  reducer: { user: userReducer },
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

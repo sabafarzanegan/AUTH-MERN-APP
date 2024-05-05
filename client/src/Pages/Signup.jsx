@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../component/OAuth";
 
 function Signup() {
   const [formData, setFormData] = useState({});
@@ -95,6 +96,7 @@ function Signup() {
               className="w-full bg-primary p-3 text-white font-vazir text-xl mt-2  rounded-lg">
               {loading ? "...درحال ارسال" : "ثبت نام"}
             </button>
+            <OAuth />
           </form>
           <p className="text-center text-white font-vazir text-xl mt-6 ">
             قبلا ثبت نام کرده اید؟

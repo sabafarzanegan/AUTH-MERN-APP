@@ -6,6 +6,7 @@ import {
   signinSuccess,
 } from "../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import OAuth from "../component/OAuth";
 function Signin() {
   const [formData, setFormData] = useState({});
   // const [error, setError] = useState(false);
@@ -95,6 +96,7 @@ function Signin() {
               className="w-full bg-primary p-3 text-white font-vazir text-xl mt-2  rounded-lg">
               {loading ? "...درحال ارسال" : "ورود"}
             </button>
+            <OAuth />
           </form>
           <p className="text-center text-white font-vazir text-xl mt-6 ">
             قبلا ثبت نام نکرده اید؟
