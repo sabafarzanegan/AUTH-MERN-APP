@@ -1,7 +1,10 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 function Header() {
+  const Currentuser = useSelector((state) => state.user.currentUser);
+  // console.log(Currentuser.profilePicture);
   return (
     // header container
     <>
@@ -14,8 +17,15 @@ function Header() {
           {/* menu item */}
           <ul className="flex items-center justify-center gap-x-6">
             <li>
-              <Link to="/signin" className=" hover:text-primary">
-                ورود
+              <Link to="/profile">
+                {Currentuser ? (
+                  // <img src={Currentuser.profilePicture} alt="" />
+                  <p className="hover:text-primary">{Currentuser.username}</p>
+                ) : (
+                  <Link to="/signin" className=" hover:text-primary">
+                    ورود
+                  </Link>
+                )}
               </Link>
             </li>
             <li>
