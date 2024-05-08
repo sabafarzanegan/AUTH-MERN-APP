@@ -4,14 +4,18 @@ import {
   updateUsersuccess,
   updateuserfail,
   updateuserstart,
+  deleteUsersuccess,
+  deleteuserstart,
+  deleteuserfail,
 } from "../redux/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function Profile() {
   const [formDataupdate, setFormDataupdata] = useState({});
   const currentUser = useSelector((state) => state.user.currentUser);
   const loading = useSelector((state) => state.user.loading);
   const error = useSelector((state) => state.user.error);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleChange = (e) => {
     setFormDataupdata({ ...formDataupdate, [e.target.id]: e.target.value });
@@ -37,6 +41,22 @@ function Profile() {
     } catch (error) {
       dispatch(updateuserfail(error));
       console.log(error);
+    }
+  };
+  const delethandler = async () => {
+    try {
+      dispatch(deleteuserstart());
+      const res = await fetch(`api/user/delete${currentUser._id}`, {
+        method: "DELETE",
+      });
+      const data = res.json();
+      if ((data.success = false)) {
+        dispatch(deleteuserfail(data));
+        return;
+      }
+      dispatch(deleteUsersuccess(data));
+    } catch (error) {
+      dispatch(deleteuserfail(error));
     }
   };
 
@@ -95,8 +115,7 @@ function Profile() {
           <div
             className="flex items-center justify-between mt-2 py-2 font-vazir font-semibold text-md cursor-pointer
          text-red-500">
-            <span>حذف حساب</span>
-            <span>خروج از حساب</span>
+            <span onClick={delethandler}>خروج از حساب</span>
           </div>
         </div>
       </div>
