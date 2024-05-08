@@ -13,7 +13,10 @@ export default function Home() {
       </p>
       <p className="text-gray-300 text-lg font-vazir text-center leading-10">
         این اپ شامل ثبت نام کاربر،ورود کاربر،خروج از حساب کاربری ومسیرهای حفاظت
-        شده قبل از ورود کاربر است
+        .شده قبل از ورود کاربر است
+      </p>
+      <p className="text-gray-300 text-lg font-vazir text-center leading-10">
+        . انجام شده است json web token(JWT)این احراز هویت با
       </p>
     </>
   );
