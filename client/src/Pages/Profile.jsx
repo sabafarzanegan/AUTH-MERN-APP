@@ -1,58 +1,64 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateUsersuccess,
+  updateuserfail,
+  updateuserstart,
+} from "../redux/user/userSlice";
 
 function Profile() {
+  const [formDataupdate, setFormDataupdata] = useState({});
   const currentUser = useSelector((state) => state.user.currentUser);
-  console.log(currentUser);
+  const loading = useSelector((state) => state.user.loading);
+  const error = useSelector((state) => state.user.error);
+
+  const dispatch = useDispatch();
+  const handleChange = (e) => {
+    setFormDataupdata({ ...formDataupdate, [e.target.id]: e.target.value });
+  };
+  const handelSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateuserstart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formDataupdate),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateuserfail(data));
+        return;
+      }
+      dispatch(updateUsersuccess(data));
+      console.log(data);
+    } catch (error) {
+      dispatch(updateuserfail(error));
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <h1 className="text-primary text-2xl text-center mt-4  font-lalezar">
         حساب کاربری
       </h1>
-      {/* <form
-        action=""
-        className="flex flex-col w-[50%] min-h-80  m-auto mt-8 rounded-lg bg-third ">
-        <h3 className="text-center text-xl font-vazir text-white py-4 ">
-          سلام{currentUser.username}
-        </h3>
-        <label className="text-right text-white font-vazir  px-10 mb-2  ">
-          نام کاربری جدید
-        </label>
-        <input
-          className="w-[80%] m-auto p-1 rounded-md mt-1 "
-          type="text"
-          placeholder="new username"
-          id="username"
-        />
-        <label className="text-right text-white font-vazir  px-10 mb-2  ">
-          ایمیل جدید
-        </label>
-        <input
-          className="w-[80%] m-auto p-1 rounded-md mt-1 "
-          type="email"
-          placeholder="new email"
-          id="email"
-        />
-        <label className="text-right text-white font-vazir  px-10 mb-2  ">
-          رمز جدید
-        </label>
-        <input
-          className="w-[80%] m-auto p-1 rounded-md mt-1 "
-          type="password"
-          placeholder="new username"
-          id="password"
-        />
-      </form> */}
+      {error ? <h3>خطا در به روز رسانی</h3> : ""}
       <div className="w-full flex items-center justify-center mt-10  ">
-        {/* signup content */}
         <div className="md:w-[40%] p-10 bg-third rounded-lg">
-          <form action="" className="flex flex-col  justify-center gap-y-5">
+          <form
+            onSubmit={handelSubmit}
+            action=""
+            className="flex flex-col  justify-center gap-y-5">
             <label className="text-right font-vazir text-white text-sm px-1">
               نام کاربری جدید
             </label>
 
             <input
               type="text"
+              onChange={handleChange}
               defaultValue={currentUser.username}
               id="username"
               className="p-3 rounded-lg border-none outline-none"
@@ -65,6 +71,7 @@ function Profile() {
             <input
               defaultValue={currentUser.email}
               type="email"
+              onChange={handleChange}
               id="email"
               className="p-3 rounded-lg border-none outline-none"
               placeholder="email"
@@ -74,6 +81,7 @@ function Profile() {
             </label>
             <input
               type="password"
+              onChange={handleChange}
               id="password"
               className="p-3 rounded-lg border-none outline-none"
               placeholder="password"
@@ -81,11 +89,12 @@ function Profile() {
             <button
               type="submit"
               className="w-full bg-blue-700 p-3 text-white font-vazir text-xl mt-2  rounded-lg">
-              {" "}
-              به روز رسانی
+              {loading ? "در حال ازسال" : "به روز رسانی"}
             </button>
           </form>
-          <div className="flex items-center justify-between mt-2 py-2 font-vazir font-semibold text-md cursor-pointer text-red-500">
+          <div
+            className="flex items-center justify-between mt-2 py-2 font-vazir font-semibold text-md cursor-pointer
+         text-red-500">
             <span>حذف حساب</span>
             <span>خروج از حساب</span>
           </div>
